@@ -1,0 +1,41 @@
+%Submatrix-Finder
+%Max matrix = 10x10;
+%test :[1 0 1 0 0; 1 0 1 1 1; 1 1 1 1 1 ; 1 0 0 1 0]
+cols = input('Input matrix length');
+rows = input('Input matrix height');
+matrix = input('Enter matrix');
+
+maxsqlen = 0; 
+%loop threw the array, look for 1s
+for (i = 1:rows)
+    for (j = 1:cols)
+        if (matrix(i,j) == 1)
+            sqlen = 1;
+            flag = true;
+            %now while loop to check around the cell if pertains to a
+            %bigger subarray
+            while ((sqlen + i <= rows) && (sqlen + j <= cols) && flag)
+                for (k = j:(sqlen + j))
+                    if (matrix(i + sqlen,k) == 0)
+                        flag = false;
+                         break;
+                    end
+                end
+                for (k = i:(sqlen + i))
+                    if (matrix(k,j + sqlen) == 0)
+                        flag = false;
+                         break;
+                    end
+                end
+                if (flag)
+                    sqlen = sqlen + 1;
+                end
+                if maxsqlen < sqlen
+                    maxsqlen = sqlen;
+                end
+            end
+        end
+    end
+end
+fprintf('The maximum submatrix is')
+disp(maxsqlen^2);
